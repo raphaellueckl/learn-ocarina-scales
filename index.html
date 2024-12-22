@@ -16,7 +16,7 @@
       }
       .scale {
         margin: 20px 0;
-        height: 300px;
+        height: 350px;
       }
       img {
         width: auto;
@@ -32,7 +32,6 @@
         display: flex;
         flex-direction: column;
         width: 200px;
-        
       }
       .slider-tuple {
         display: flex;
@@ -43,10 +42,24 @@
         margin-right: 5px;
         justify-content: center;
       }
+      #note-character {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 50px;
+        box-sizing: border-box;
+        border: 2px solid #000;
+        background-color: #f0f0f0;
+      }
+      #note-character:empty {
+        visibility: hidden;
+      }
     </style>
   </head>
   <body>
     <h1>Ocarina Scale Learner - Tenor C</h1>
+    <h2 id="note-character"></h2>
     <div id="scale-container" class="scale">
       <div id="note-image"><img src="" alt="Note Image" /></div>
       <div id="finger-image"><img src="" alt="Finger Position Image" /></div>
@@ -196,6 +209,7 @@
         document
           .getElementById("finger-image")
           .getElementsByTagName("img")[0].src = scale.fingerImage;
+        document.getElementById("note-character").textContent = scale.note;
       }
 
       function startSwitching() {
@@ -215,6 +229,7 @@
         document
           .getElementById("finger-image")
           .getElementsByTagName("img")[0].src = "";
+        document.getElementById("note-character").textContent = "";
       }
 
       function updateSpeedValue(value) {
