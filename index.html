@@ -166,6 +166,8 @@
         if (intervalId) {
           clearInterval(intervalId);
         }
+        document.getElementById("note-image").getElementsByTagName("img")[0].src = "";
+        document.getElementById("finger-image").getElementsByTagName("img")[0].src = "";
       }
 
       function updateSpeedValue(value) {
