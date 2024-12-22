@@ -189,7 +189,6 @@
           randomIndex = Math.floor(Math.random() * scales.length);
         }
         lastRandomIndex = randomIndex;
-        console.log(randomIndex);
         const scale = scales[randomIndex];
         document
           .getElementById("note-image")
@@ -220,6 +219,10 @@
 
       function updateSpeedValue(value) {
         document.getElementById("speed-value").textContent = value;
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = setInterval(displayRandomScale, value);
+        }
       }
     </script>
   </body>
