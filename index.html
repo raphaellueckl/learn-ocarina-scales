@@ -12,11 +12,11 @@
         font-family: Arial, sans-serif;
         text-align: center;
         margin: 0;
-        padding: 20px;
+        padding: 10px;
       }
       .scale {
-        margin: 20px 0;
-        height: 350px;
+        margin: 10px 0;
+        height: 300px;
       }
       img {
         width: auto;
@@ -26,7 +26,7 @@
         visibility: hidden;
       }
       .control-buttons {
-        margin-top: 20px;
+        margin-top: 10px;
       }
       .control-slider {
         display: flex;
@@ -36,7 +36,7 @@
       .slider-tuple {
         display: flex;
         align-items: center;
-        margin-top: 20px;
+        margin-top: 10px;
       }
       .slider {
         margin-right: 5px;
@@ -51,6 +51,7 @@
         box-sizing: border-box;
         border: 2px solid #000;
         background-color: #f0f0f0;
+        margin: 0;
       }
       #note-character:empty {
         visibility: hidden;
@@ -60,7 +61,7 @@
   <body>
     <h1>Ocarina Scale Learner - Tenor C</h1>
     <h2 id="note-character"></h2>
-    <div id="scale-container" class="scale">
+    <div class="scale" id="scale-container">
       <div id="note-image"><img src="" alt="Note Image" /></div>
       <div id="finger-image"><img src="" alt="Finger Position Image" /></div>
     </div>
