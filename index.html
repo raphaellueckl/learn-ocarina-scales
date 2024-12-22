@@ -27,7 +27,9 @@
       <div id="finger-image"><img src="" alt="Finger Position Image" /></div>
     </div>
     <label for="speed">Adjust Scale Switch Speed (ms):</label>
-    <input type="number" id="speed" value="2000" />
+    <input type="range" id="speed" min="50" max="15000" value="2000" oninput="updateSpeedValue(this.value)" />
+    <span id="speed-value">2000</span> ms
+    <br>
     <button onclick="startSwitching()">Start</button>
     <button onclick="stopSwitching()">Stop</button>
 
@@ -164,6 +166,10 @@
         if (intervalId) {
           clearInterval(intervalId);
         }
+      }
+
+      function updateSpeedValue(value) {
+        document.getElementById("speed-value").textContent = value;
       }
     </script>
   </body>
