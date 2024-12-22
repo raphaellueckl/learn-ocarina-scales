@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ocarina Scale Learner</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+      }
+      .scale {
+        margin: 20px 0;
+      }
+      img {
+        width: 100px;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ocarina Scale Learner</h1>
+    <div id="scale-container" class="scale">
+      <div id="note-image"><img src="" alt="Note Image" /></div>
+      <div id="finger-image"><img src="" alt="Finger Position Image" /></div>
+    </div>
+    <label for="speed">Adjust Scale Switch Speed (ms):</label>
+    <input type="number" id="speed" value="2000" />
+    <button onclick="startSwitching()">Start</button>
+    <button onclick="stopSwitching()">Stop</button>
+
+    <script>
+      const scales = [
+        {
+          note: "C",
+          noteImage: "images/c_note.png", // Replace with actual image paths
+          fingerImage: "images/c_finger.png", // Replace with actual image paths
+        },
+        {
+          note: "D",
+          noteImage: "images/d_note.png",
+          fingerImage: "images/d_finger.png",
+        },
+        {
+          note: "E",
+          noteImage: "images/e_note.png",
+          fingerImage: "images/e_finger.png",
+        },
+        // Add more scales as needed
+      ];
+
+      let intervalId;
+
+      function displayRandomScale() {
+        const randomIndex = Math.floor(Math.random() * scales.length);
+        const scale = scales[randomIndex];
+        document
+          .getElementById("note-image")
+          .getElementsByTagName("img")[0].src = scale.noteImage;
+        document
+          .getElementById("finger-image")
+          .getElementsByTagName("img")[0].src = scale.fingerImage;
+      }
+
+      function startSwitching() {
+        const speed = document.getElementById("speed").value;
+        stopSwitching();
+        displayRandomScale();
+        intervalId = setInterval(displayRandomScale, speed);
+      }
+
+      function stopSwitching() {
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+      }
+    </script>
+  </body>
+</html>
