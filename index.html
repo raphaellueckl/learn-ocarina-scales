@@ -6,6 +6,9 @@
     <title>Ocarina Scale Learner</title>
     <style>
       body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         font-family: Arial, sans-serif;
         text-align: center;
         margin: 0;
@@ -13,25 +16,60 @@
       }
       .scale {
         margin: 20px 0;
+        height: 300px;
       }
       img {
-        width: 100px;
-        height: auto;
+        width: auto;
+        height: 150px;
+      }
+      img[src=""] {
+        visibility: hidden;
+      }
+      .control-buttons {
+        margin-top: 20px;
+      }
+      .control-slider {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        
+      }
+      .slider-tuple {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .slider {
+        margin-right: 5px;
+        justify-content: center;
       }
     </style>
   </head>
   <body>
-    <h1>Ocarina Scale Learner</h1>
+    <h1>Ocarina Scale Learner - Tenor C</h1>
     <div id="scale-container" class="scale">
       <div id="note-image"><img src="" alt="Note Image" /></div>
       <div id="finger-image"><img src="" alt="Finger Position Image" /></div>
     </div>
-    <label for="speed">Adjust Scale Switch Speed (ms):</label>
-    <input type="range" id="speed" min="50" max="15000" value="3000" oninput="updateSpeedValue(this.value)" />
-    <span id="speed-value">3000</span> ms
-    <br>
-    <button onclick="startSwitching()">Start</button>
-    <button onclick="stopSwitching()">Stop</button>
+    <div class="control-slider">
+      <label for="speed">Adjust Scale Switch Speed (ms):</label>
+      <div class="slider-tuple">
+        <input
+          class="slider"
+          type="range"
+          id="speed"
+          min="50"
+          max="15000"
+          value="5000"
+          oninput="updateSpeedValue(this.value)"
+        />
+        <span id="speed-value">5000</span>ms
+      </div>
+    </div>
+    <div class="control-buttons">
+      <button onclick="startSwitching()">Start</button>
+      <button onclick="stopSwitching()">Stop</button>
+    </div>
 
     <script>
       const scales = [
@@ -139,13 +177,19 @@
           note: "F",
           noteImage: "images/scale/21_F2.png",
           fingerImage: "images/tones/21_F2.jpg",
-        }
+        },
       ];
 
       let intervalId;
+      let lastRandomIndex = -1;
 
       function displayRandomScale() {
-        const randomIndex = Math.floor(Math.random() * scales.length);
+        let randomIndex = Math.floor(Math.random() * scales.length);
+        while (lastRandomIndex === randomIndex) {
+          randomIndex = Math.floor(Math.random() * scales.length);
+        }
+        lastRandomIndex = randomIndex;
+        console.log(randomIndex);
         const scale = scales[randomIndex];
         document
           .getElementById("note-image")
@@ -166,8 +210,12 @@
         if (intervalId) {
           clearInterval(intervalId);
         }
-        document.getElementById("note-image").getElementsByTagName("img")[0].src = "";
-        document.getElementById("finger-image").getElementsByTagName("img")[0].src = "";
+        document
+          .getElementById("note-image")
+          .getElementsByTagName("img")[0].src = "";
+        document
+          .getElementById("finger-image")
+          .getElementsByTagName("img")[0].src = "";
       }
 
       function updateSpeedValue(value) {
