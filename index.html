@@ -97,6 +97,16 @@
         Ignore # notes
       </label>
     </div>
+    <div class="control-checkbox">
+      <label for="ladder-scale-checkbox">
+        <input
+          type="checkbox"
+          id="ladder-scale-checkbox"
+          onclick="updateLadderScale()"
+        />
+        Ladder scale
+      </label>
+    </div>
 
     <script>
       const scales = [
@@ -210,6 +220,8 @@
       let filteredScales = scales;
       let intervalId;
       let lastRandomIndex = -1;
+      let ladderScale = false;
+      let currentIndex = 0;
 
       function displayRandomScale() {
         let randomIndex = Math.floor(Math.random() * filteredScales.length);
@@ -227,11 +239,28 @@
         document.getElementById("note-character").textContent = scale.note;
       }
 
+      function displayNextScale() {
+        const scale = filteredScales[currentIndex];
+        document
+          .getElementById("note-image")
+          .getElementsByTagName("img")[0].src = scale.noteImage;
+        document
+          .getElementById("finger-image")
+          .getElementsByTagName("img")[0].src = scale.fingerImage;
+        document.getElementById("note-character").textContent = scale.note;
+        currentIndex = (currentIndex + 1) % filteredScales.length;
+      }
+
       function startSwitching() {
         const speed = document.getElementById("speed").value;
         stopSwitching();
-        displayRandomScale();
-        intervalId = setInterval(displayRandomScale, speed);
+        if (ladderScale) {
+          displayNextScale();
+          intervalId = setInterval(displayNextScale, speed);
+        } else {
+          displayRandomScale();
+          intervalId = setInterval(displayRandomScale, speed);
+        }
       }
 
       function stopSwitching() {
@@ -251,7 +280,11 @@
         document.getElementById("speed-value").textContent = value;
         if (intervalId) {
           clearInterval(intervalId);
-          intervalId = setInterval(displayRandomScale, value);
+          if (ladderScale) {
+            intervalId = setInterval(displayNextScale, value);
+          } else {
+            intervalId = setInterval(displayRandomScale, value);
+          }
         }
       }
 
@@ -263,10 +296,36 @@
           : scales;
         if (intervalId) {
           clearInterval(intervalId);
-          intervalId = setInterval(
-            displayRandomScale,
-            document.getElementById("speed").value
-          );
+          if (ladderScale) {
+            intervalId = setInterval(
+              displayNextScale,
+              document.getElementById("speed").value
+            );
+          } else {
+            intervalId = setInterval(
+              displayRandomScale,
+              document.getElementById("speed").value
+            );
+          }
+        }
+      }
+
+      function updateLadderScale() {
+        ladderScale = document.getElementById("ladder-scale-checkbox").checked;
+        currentIndex = 0;
+        if (intervalId) {
+          clearInterval(intervalId);
+          if (ladderScale) {
+            intervalId = setInterval(
+              displayNextScale,
+              document.getElementById("speed").value
+            );
+          } else {
+            intervalId = setInterval(
+              displayRandomScale,
+              document.getElementById("speed").value
+            );
+          }
         }
       }
     </script>
