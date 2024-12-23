@@ -56,6 +56,9 @@
       #note-character:empty {
         visibility: hidden;
       }
+      #ignore-sharp-notes {
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
@@ -83,6 +86,16 @@
     <div class="control-buttons">
       <button onclick="startSwitching()">Start</button>
       <button onclick="stopSwitching()">Stop</button>
+    </div>
+    <div class="control-checkbox">
+      <label for="ignore-sharp-notes">
+        <input
+          type="checkbox"
+          id="ignore-sharp-notes"
+          onclick="updateScaleArray()"
+        />
+        Ignore # notes
+      </label>
     </div>
 
     <script>
@@ -194,16 +207,17 @@
         },
       ];
 
+      let filteredScales = scales;
       let intervalId;
       let lastRandomIndex = -1;
 
       function displayRandomScale() {
-        let randomIndex = Math.floor(Math.random() * scales.length);
+        let randomIndex = Math.floor(Math.random() * filteredScales.length);
         while (lastRandomIndex === randomIndex) {
-          randomIndex = Math.floor(Math.random() * scales.length);
+          randomIndex = Math.floor(Math.random() * filteredScales.length);
         }
         lastRandomIndex = randomIndex;
-        const scale = scales[randomIndex];
+        const scale = filteredScales[randomIndex];
         document
           .getElementById("note-image")
           .getElementsByTagName("img")[0].src = scale.noteImage;
@@ -238,6 +252,21 @@
         if (intervalId) {
           clearInterval(intervalId);
           intervalId = setInterval(displayRandomScale, value);
+        }
+      }
+
+      function updateScaleArray() {
+        const ignoreSharpNotes =
+          document.getElementById("ignore-sharp-notes").checked;
+        filteredScales = ignoreSharpNotes
+          ? scales.filter((scale) => !scale.noteImage.endsWith("_.png"))
+          : scales;
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = setInterval(
+            displayRandomScale,
+            document.getElementById("speed").value
+          );
         }
       }
     </script>
