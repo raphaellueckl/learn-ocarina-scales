@@ -36,6 +36,7 @@
       .slider-tuple {
         display: flex;
         align-items: center;
+        justify-content: space-around;
         margin-top: 10px;
       }
       .slider {
@@ -69,18 +70,19 @@
       <div id="finger-image"><img src="" alt="Finger Position Image" /></div>
     </div>
     <div class="control-slider">
-      <label for="speed">Adjust Scale Switch Speed (ms):</label>
+      <label for="speed">Adjust Scale Switch Speed (seconds):</label>
       <div class="slider-tuple">
         <input
           class="slider"
           type="range"
           id="speed"
-          min="50"
+          min="100"
           max="15000"
+          step="100"
           value="5000"
           oninput="updateSpeedValue(this.value)"
         />
-        <span id="speed-value">5000</span>ms
+        <div><span id="speed-value">5.0</span>s</div>
       </div>
     </div>
     <div class="control-buttons">
@@ -277,7 +279,8 @@
       }
 
       function updateSpeedValue(value) {
-        document.getElementById("speed-value").textContent = value;
+        document.getElementById("speed-value").textContent =
+          Number(value) / 1000;
         if (intervalId) {
           clearInterval(intervalId);
           if (ladderScale) {
