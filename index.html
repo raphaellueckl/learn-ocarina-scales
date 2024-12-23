@@ -109,6 +109,16 @@
         Ladder scale
       </label>
     </div>
+    <div class="control-checkbox">
+      <label for="hide-finger-pattern">
+        <input
+          type="checkbox"
+          id="hide-finger-pattern"
+          onclick="toggleFingerPattern()"
+        />
+        Do not show finger pattern
+      </label>
+    </div>
 
     <script>
       const scales = [
@@ -224,6 +234,7 @@
       let lastRandomIndex = -1;
       let ladderScale = false;
       let currentIndex = 0;
+      let hideFingerPattern = false;
 
       function displayRandomScale() {
         let randomIndex = Math.floor(Math.random() * filteredScales.length);
@@ -235,9 +246,11 @@
         document
           .getElementById("note-image")
           .getElementsByTagName("img")[0].src = scale.noteImage;
-        document
-          .getElementById("finger-image")
-          .getElementsByTagName("img")[0].src = scale.fingerImage;
+        if (!hideFingerPattern) {
+          document
+            .getElementById("finger-image")
+            .getElementsByTagName("img")[0].src = scale.fingerImage;
+        }
         document.getElementById("note-character").textContent = scale.note;
       }
 
@@ -246,9 +259,11 @@
         document
           .getElementById("note-image")
           .getElementsByTagName("img")[0].src = scale.noteImage;
-        document
-          .getElementById("finger-image")
-          .getElementsByTagName("img")[0].src = scale.fingerImage;
+        if (!hideFingerPattern) {
+          document
+            .getElementById("finger-image")
+            .getElementsByTagName("img")[0].src = scale.fingerImage;
+        }
         document.getElementById("note-character").textContent = scale.note;
         currentIndex = (currentIndex + 1) % filteredScales.length;
       }
@@ -329,6 +344,17 @@
               document.getElementById("speed").value
             );
           }
+        }
+      }
+
+      function toggleFingerPattern() {
+        hideFingerPattern = document.getElementById(
+          "hide-finger-pattern"
+        ).checked;
+        if (hideFingerPattern) {
+          document.getElementById("finger-image").style.display = "none";
+        } else {
+          document.getElementById("finger-image").style.display = "block";
         }
       }
     </script>
