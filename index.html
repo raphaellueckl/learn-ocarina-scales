@@ -302,7 +302,7 @@
 
       function updateSpeedValue(value) {
         document.getElementById("speed-value").textContent =
-          Number(value) / 1000;
+          (Number(value) / 1000).toFixed(1);
         if (intervalId) {
           clearInterval(intervalId);
           if (ladderScale) {
